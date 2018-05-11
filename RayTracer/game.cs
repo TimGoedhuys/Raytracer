@@ -34,7 +34,9 @@ namespace Template {
             GL.Disable(EnableCap.Texture2D);
             GL.Clear(ClearBufferMask.DepthBufferBit);
 
-            Sphere Sphere1 = new Sphere(new Vector3(1, 1, 0), 0.1f, new Vector3(255,0,0), aspectratio);
+            Sphere Sphere1 = new Sphere(new Vector3(1, 1, 0), 0.07f, new Vector3(255,0,0), aspectratio);
+            Sphere Sphere2 = new Sphere(new Vector3(0, 1, 0), 0.07f, new Vector3(0, 0, 255), aspectratio);
+            Sphere Sphere3 = new Sphere(new Vector3(-1, 1, 0), 0.07f, new Vector3(0, 255,0), aspectratio);
             Camera Camara = new Camera(new Vector3(0,0,0), new Vector3(0,0,1));
         }
     }

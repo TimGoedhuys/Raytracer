@@ -39,7 +39,7 @@ namespace template.Elements
         }
         public static void DrawScreen(Vector3 CamPos)
         {
-            float ScreenSize = 100, Screendistance = 80;
+            float ScreenSize = 80, Screendistance = 80;
             float ycam = CamPos.Z;
             float xcam = CamPos.X;
             ycam *= 0.5f;
