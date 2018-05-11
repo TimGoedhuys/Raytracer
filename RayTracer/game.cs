@@ -13,39 +13,29 @@ namespace Template {
 	    // member variables
 	    public Surface screen;
         float aspectratio;
+
 	    // initialize
 	    public void Init()
 	    {
-            aspectratio = screen.width / screen.height;  
+            aspectratio = screen.width / screen.height;
         }
         // tick: renders one frame
         public void Tick()
         {
             screen.Clear(0);
-            // Drawing the Red Seperation line in the middle
             screen.Line(screen.width / 2, 0, screen.width / 2, screen.height, 0xff0000);
+            // Drawing the Red Seperation line in the middle     
         }
 
-        // Converting X axis position to actual pixel location on screen
-        public int TX(float b, bool Left)
+        public void RenderGL()
         {
-            int x;
-            b += 2;
-            x = (int)(b * 0.25f * (screen.width / 2));
-            if (Left == true)
-                return x;
-            else
-                return x + (screen.width / 2);
-        }
+            // prepare for generic OpenGL rendering
+            GL.Enable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.Texture2D);
+            GL.Clear(ClearBufferMask.DepthBufferBit);
 
-        // Converting Y axis position to actual pixel location on screen
-        public int TY(float b)
-        {
-            int y;
-            b = b * aspectratio;
-            b -= 2;
-            y = (int)(b * -0.25f * screen.height);
-            return y;
+            Sphere Sphere1 = new Sphere(new Vector3(1, 1, 0), 0.1f, new Vector3(255,0,0), aspectratio);
+            Camera Camara = new Camera(new Vector3(0,0,0), new Vector3(0,0,1));
         }
     }
 
