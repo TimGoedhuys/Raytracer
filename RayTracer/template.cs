@@ -76,9 +76,9 @@ namespace Template
 			GL.TexCoord2( 1.0f, 1.0f ); GL.Vertex2(  1.0f, -1.0f );
 			GL.TexCoord2( 1.0f, 0.0f ); GL.Vertex2(  1.0f,  1.0f );
 			GL.TexCoord2( 0.0f, 0.0f ); GL.Vertex2( -1.0f,  1.0f );
-			GL.End();
-			// tell OpenTK we're done rendering
-			SwapBuffers();
+            GL.End();
+            // tell OpenTK we're done rendering
+            SwapBuffers();
 		}
 		public static void Main( string[] args ) 
 		{ 
