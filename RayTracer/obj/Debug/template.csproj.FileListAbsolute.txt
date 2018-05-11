@@ -1,0 +1,7 @@
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\bin\Debug\template.exe.config
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\obj\Debug\template.csprojResolveAssemblyReference.cache
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\bin\Debug\template.exe
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\bin\Debug\template.pdb
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\bin\Debug\OpenTK.dll
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\obj\Debug\template.exe
+C:\Users\timgo\Documents\Uni Doc's\nieuw template\RayTracer\obj\Debug\template.pdb
