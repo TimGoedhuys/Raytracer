@@ -31,7 +31,7 @@ namespace template.Elements
             x *= 0.25f;
             y *= 0.5f;
             y -= 0.5f;
-            GL.Color4(0.0f, 1f, 0.0f, 1f);
+            GL.Color4(1f, 1f, 1f, 1f);
             GL.PointSize(5f);
             GL.Begin(PrimitiveType.Points);
             GL.Vertex3(x, y, 0);
@@ -48,7 +48,7 @@ namespace template.Elements
             xcam *= 0.25f;
             float zoffset = Screendistance / 200;
             float y = ycam + zoffset;
-            GL.Color4(0, 0, 1.0f, 1f);
+            GL.Color4(1f, 1f, 1.0f, 1f);
             GL.LineWidth(1f);
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(xcam + (ScreenSize / 400), y);
