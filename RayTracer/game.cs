@@ -33,12 +33,20 @@ namespace Template {
             GL.Enable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Texture2D);
             GL.Clear(ClearBufferMask.DepthBufferBit);
+            float FOV =  1;
 
             Sphere Sphere1 = new Sphere(new Vector3(1, 1, 0), 0.07f, new Vector3(255,0,0), aspectratio);
             Sphere Sphere2 = new Sphere(new Vector3(0, 1, 0), 0.07f, new Vector3(0, 0, 255), aspectratio);
             Sphere Sphere3 = new Sphere(new Vector3(-1, 1, 0), 0.07f, new Vector3(0, 255,0), aspectratio);
-            Camera Camara = new Camera(new Vector3(0,0,0), new Vector3(0,0,1));
+            Camera mainCamera = new Camera(new Vector3(0,0,0), new Vector3(0,0,1), FOV);
             Light LightSource1 = new Light(new Vector3(-1.5f, 0, 0.4f), 255, 255, 0);
+            Scene Scene1 = new Scene();
+            Scene1.PrimitivesList.Add(Sphere1);
+            Scene1.PrimitivesList.Add(Sphere2);
+            Scene1.PrimitivesList.Add(Sphere3);
+            Raytracer raytracer = new Raytracer();
+            raytracer.Render(mainCamera, Scene1, screen);
+
         }
     }
 

@@ -13,8 +13,8 @@ namespace template.Elements.Primitives
 {
     class Sphere: Primitive
     {
-        static Vector3 Position, Color;
-        float Radius;
+        public Vector3 Position, Color;
+        public float Radius;
         public Sphere(Vector3 Pos, float Rad, Vector3 Colr, float Ratio): base("Sphere")
         {
             Position = Pos;

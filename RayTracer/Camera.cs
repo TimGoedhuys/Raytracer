@@ -11,13 +11,16 @@ namespace template.Elements
 {
     class Camera
     {
-        Plane Screen;
-        Vector3 Position, Direction;
-        public Camera(Vector3 Pos, Vector3 Dir)
+        public Plane Screen;
+        public Vector3 Position, Direction ;
+        public float FOV;
+        public Camera(Vector3 Pos, Vector3 Dir, float fov)
         {
             Position = Pos;
             Direction = Dir;
-            Screen = new Plane(new Vector3(0, 0, 1), 0f, new Vector3(0, 0, 0));
+            FOV = fov;
+            Screen = new Plane(Dir, 1f, new Vector3(0, 0, 0));
+            
 
             DrawCamPoint(Position);
             DrawScreen(Position);

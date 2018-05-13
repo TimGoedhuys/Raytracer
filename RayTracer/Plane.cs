@@ -10,12 +10,13 @@ namespace template.Elements.Primitives
     class Plane: Primitive
     {
         Vector3 Normal, Color;
-        float Dist2Origin;
+        public float Dist2Origin;
         public Plane(Vector3 Norm, float Dist, Vector3 Colr): base("Plane")
         {
             Normal = Norm;
             Dist2Origin = Dist;
             Color = Colr;
+            
         }
     }
 }

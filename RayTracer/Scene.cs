@@ -9,7 +9,7 @@ namespace template.Elements
 {
     class Scene
     {
-        public List<Primitives.Primitive> PrimitivesList = new List<Primitives.Primitive>();
+        public List<Primitives.Sphere> PrimitivesList = new List<Primitives.Sphere>();
         public List<Light> LightList = new List<Light>();
 
         public Vector3 Intersection()
