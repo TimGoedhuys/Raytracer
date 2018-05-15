@@ -19,15 +19,16 @@ namespace template.Elements
             Vector3 startpoint, raydir;
 
             Primitives.Plane viewport = cam.Screen;
-            for (int x = 0; x < screen.width / 2; x++)
+            for (int y = 0; y < screen.height; y++)
             {
-                for (int y = 0; y < screen.height; y++)
+                for (int x = 0; x < screen.width/2; x++)
                 {
-                    //viewportX = 
-                    startpoint = new Vector3(cam.FOV*(x-screen.width/2), cam.FOV*(y-screen.height/2),0);
+                    viewportX = x/(screen.width/2)*(cam.corners[1].X - cam.corners[0].X)-1;
+                    viewportY = 0f;
+                    startpoint = new Vector3(viewportX, viewportY,1f);
                     raydir = startpoint - cam.Position;
                     Ray ray = new Ray(startpoint, raydir, objects.PrimitivesList, 10f);
-                    DrawRay(startpoint,ray.viewablePoint);
+                    DrawRay(cam.Position,ray.viewablePoint);
                     screen.pixels[y * screen.width / 2 + x] = Hex(ray.colorOutput);
                 }
             }
@@ -53,8 +54,9 @@ namespace template.Elements
             yb *= 0.5f;
             GL.Begin(PrimitiveType.Lines);
             GL.Color4(1f,1f,0f,1f);
-            GL.Vertex2(xb,yb);
-            GL.Vertex2(0,0);
+            GL.Vertex2(-xb,-yb);
+            GL.Vertex2(xa,ya);
+            //Console.WriteLine(xa+" , "+ ya+" "+xb + " , " + yb);
             GL.End();
             GL.Disable(EnableCap.Blend);
 
