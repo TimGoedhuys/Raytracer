@@ -29,14 +29,18 @@ namespace Template {
             // Drawing the Red Seperation line in the middle     
         }
 
-        public void RenderGL()
+        public void Raytracing()
         {
             // prepare for generic OpenGL rendering
             GL.Enable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Texture2D);
             GL.Clear(ClearBufferMask.DepthBufferBit);
             float FOV =  1;
+
+            // creating a scene
             Scene Scene1 = new Scene();
+
+            // Adding axis in the Debug view
             Scene1.toggleaxis(true);
             if (Scene1.Axis == true)
             {
@@ -46,18 +50,34 @@ namespace Template {
                 GL.Vertex2(0, 0); GL.Vertex2(1, 0);
                 GL.End();
             }
-            Sphere Sphere1 = new Sphere(new Vector3(1, 1, 0), 0.07f, new Vector3(255,0,0), aspectratio);
-            Sphere Sphere2 = new Sphere(new Vector3(0, 1, 0), 0.07f, new Vector3(0, 0, 255), aspectratio);
-            Sphere Sphere3 = new Sphere(new Vector3(-1, 1, 0), 0.07f, new Vector3(0, 255,0), aspectratio);
+            // Adding main objects to the scene
+            Sphere Sphere1 = new Sphere(new Vector3(-100, 0, 0), 0.07f, new Vector3(255,0,0), aspectratio);
+            Sphere Sphere2 = new Sphere(new Vector3(80, 0, 0), 0.07f, new Vector3(0, 0, 255), aspectratio);
+            Sphere Sphere3 = new Sphere(new Vector3(150, 0, 200), 0.07f, new Vector3(0, 255,0), aspectratio);
             Camera mainCamera = new Camera(new Vector3(0,0,0), new Vector3(0,0,1), FOV);
             Light LightSource1 = new Light(new Vector3(-1.5f, 0, 0.4f), 255, 255, 0);
+
+            // adding primitives to te primitive list 
             Scene1.PrimitivesList.Add(Sphere1);
             Scene1.PrimitivesList.Add(Sphere2);
             Scene1.PrimitivesList.Add(Sphere3);
-  
+
+            // draw every primitive in the list
+            foreach (Sphere item in Scene1.PrimitivesList)
+            {
+                Scene1.DrawCircle(DebugConverter(item.Position), item.Color, item.Radius, screen);
+            }
+
+            // start raytracing
             Raytracer raytracer = new Raytracer();
             raytracer.Render(mainCamera, Scene1, screen);
         }
-    }
 
+        public Vector2 DebugConverter(Vector3 pos)
+        {
+            float X = pos.X / (screen.width / 2) + 0.5f;
+            float Y = (pos.Z /(screen.height / 2));
+            return new Vector2(X, Y);
+        }
+    }
 } // namespace Template
