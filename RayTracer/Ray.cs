@@ -60,11 +60,10 @@ namespace template.Elements
                 else
                 {
                     // calculate the color knowing the angle to the sphere and the distance to the lightsource
-                    //float intensity = Lengthshadow / 1000;
+                    float intensity = Lengthshadow / 1000;
                     Vector3 normal = (vec * Length) - objects[i].Position;
                     angle = Vector3.Dot(normal, vec) * -100;
-                    //Color *= intensity;
-                    Color *= angle;
+                    Color *= angle /* * intensity */;
                 }
             }                       
         }
