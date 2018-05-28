@@ -15,8 +15,7 @@ namespace template.Elements.Primitives
         {
             Normal = Norm;
             Dist2Origin = Dist;
-            Color = Colr;
-            
+            Color = Colr;          
         }
     }
 }

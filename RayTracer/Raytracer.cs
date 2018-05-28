@@ -13,6 +13,7 @@ namespace template.Elements
     class Raytracer
     {
         public float[] Image = new float[512 + 512*512];
+        public float[,] Intersections = new float[512 + 512 * 512, 2];
         public void Render(Camera cam, Scene Scene, Template.Surface screen)
         {
             float viewportX, viewportY, viewportZ, i = 0;
@@ -27,7 +28,7 @@ namespace template.Elements
                     Vector3 ScreenPixel = cam.Corner1 + new Vector3(x, -y, 0);
                     raydir = ScreenPixel - startpoint;
                     raydir.Normalize();
-                    Ray ray1 = new Ray(startpoint, raydir, Scene.PrimitivesList, 10f);
+                    Ray ray1 = new Ray(startpoint, raydir, Scene.PrimitivesList, 10f,Intersections, Scene.LightList[0]);
                     if (x % 32 == 0 && y  == 256)
                     {
                         DrawRay(startpoint, raydir, ray1.Length);

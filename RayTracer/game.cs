@@ -24,21 +24,12 @@ namespace Template {
         public void Tick()
         {
             screen.Clear(0);
+            // Drawing the Red Seperation line in the middle   
             screen.Line(screen.width / 2, 0, screen.width / 2, screen.height, 0xff0000);
             screen.Print("X", screen.width - 25, screen.height /2 + 10, 0xffffff);
             screen.Print("Z", screen.width / 4 * 3+ 5, screen.height - 20, 0xffffff);
-
-            Raytracing();
-            /*
-            for (int renderx = 0; renderx < 512; renderx++)
-            {
-                for (int rendery = 0; rendery < 512; rendery++)
-                {
-                    int pixel = renderx + rendery * 512;
-                    screen.Plot(renderx, rendery, (int)Raytr.Image[pixel);
-                }
-            }*/
-            // Drawing the Red Seperation line in the middle     
+            // start rendering
+            Raytracing();  
         }
 
         public void Raytracing()
@@ -62,16 +53,19 @@ namespace Template {
                 GL.End();
             }
             // Adding main objects to the scene
-            Sphere Sphere1 = new Sphere(new Vector3(-100, 0, 200), 100f, new Vector3(255,0,0), aspectratio);
-            Sphere Sphere2 = new Sphere(new Vector3(80, 0, 200), 100f, new Vector3(0, 0, 255), aspectratio);
-            Sphere Sphere3 = new Sphere(new Vector3(150, 0, 200), 100f, new Vector3(0, 255,0), aspectratio);
+            Sphere Sphere1 = new Sphere(new Vector3(200, 0, 200), 100f, new Vector3(255,0,0), aspectratio);
+            Sphere Sphere2 = new Sphere(new Vector3(-200, 0, 200), 100f, new Vector3(0, 0, 255), aspectratio);
+            Sphere Sphere3 = new Sphere(new Vector3(-100, 0, 200), 100f, new Vector3(0, 255,0), aspectratio);
             Camera mainCamera = new Camera(new Vector3(0,0,0), new Vector3(0,0,1), FOV);
-            Light LightSource1 = new Light(new Vector3(-1.5f, 0, 0.4f), 255, 255, 0);
+            Light LightSource1 = new Light(new Vector3(0, 400, 50), 255, 255, 0);
 
-            // adding primitives to te primitive list 
+            // adding light source(s) to the list
+            Scene1.LightList.Add(LightSource1);
+
+            //adding primitives to te primitive list 
             Scene1.PrimitivesList.Add(Sphere1);
-            Scene1.PrimitivesList.Add(Sphere2);
             Scene1.PrimitivesList.Add(Sphere3);
+            Scene1.PrimitivesList.Add(Sphere2);
 
             // draw every primitive in the list
             foreach (Sphere item in Scene1.PrimitivesList)

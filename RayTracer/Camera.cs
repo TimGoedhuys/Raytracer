@@ -52,7 +52,7 @@ namespace template.Elements
             GL.LineWidth(1f);
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2((xcenter - ScreenWidth/2 + 256) / 512, ycenter/ (ScreenHeight/2));
-            GL.Vertex2((xcenter + ScreenWidth/2 + 256) / 512, ycenter / (ScreenHeight/2));
+            GL.Vertex2((xcenter + ScreenWidth/2 + 256 ) / 512, ycenter / (ScreenHeight/2));
             GL.End();
 
             /*
