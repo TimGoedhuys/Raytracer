@@ -12,10 +12,10 @@ namespace template.Elements
 {
     class Raytracer
     {
-
-        public void Render(Camera cam, Scene objects, Template.Surface screen)
+        public float[] Image = new float[512 + 512*512];
+        public void Render(Camera cam, Scene Scene, Template.Surface screen)
         {
-            float viewportX, viewportY, viewportZ;
+            float viewportX, viewportY, viewportZ, i = 0;
             Vector3 startpoint, raydir;
 
             Primitives.Plane viewport = cam.Screen;
@@ -23,13 +23,17 @@ namespace template.Elements
             {
                 for (int x = 0; x < screen.width/2; x++)
                 {
-                    viewportX = x/(screen.width/2)*(cam.corners[1].X - cam.corners[0].X)-1;
-                    viewportY = 0f;
-                    startpoint = new Vector3(viewportX, viewportY,1f);
-                    raydir = startpoint - cam.Position;
-                    Ray ray = new Ray(startpoint, raydir, objects.PrimitivesList, 10f);
-                    DrawRay(cam.Position,ray.viewablePoint);
-                    screen.pixels[y * screen.width / 2 + x] = Hex(ray.colorOutput);
+                    startpoint = cam.Position;
+                    Vector3 ScreenPixel = cam.Corner1 + new Vector3(x, -y, 0);
+                    raydir = ScreenPixel - startpoint;
+                    raydir.Normalize();
+                    Ray ray1 = new Ray(startpoint, raydir, Scene.PrimitivesList, 10f);
+                    if (x % 32 == 0 && y  == 256)
+                    {
+                        DrawRay(startpoint, raydir, ray1.Length);
+                    }
+                    int Color = CreateColor((int)ray1.Color.X, (int)ray1.Color.Y, (int)ray1.Color.Z);
+                    Image[x + y * 512] = Color;
                 }
             }
 
@@ -40,27 +44,24 @@ namespace template.Elements
             return (int)(256 * 256 * vecColor.X + 256 * vecColor.Y + vecColor.Z);
         }
 
-        void DrawRay(Vector3 a, Vector3 b)
+        void DrawRay(Vector3 start, Vector3 end, float length)
         {
-            float xa = a.X;
-            float ya = a.Z;
-            xa += 2;
-            xa *= 0.25f;
-            ya *= 0.5f;
-            float xb = b.X;
-            float yb = b.Z;
-            xb += 2;
-            xb *= 0.25f;
-            yb *= 0.5f;
+            float xstart = (start.X + 256) / 512;
+            float ystart = (start.Z) / 256;
+            float xend = (end.X * length + start.X + 256) /512;
+            float yend = (end.Z * length + start.Z) /256;
+            //if (xend < 0)
+               //xend = 0;
             GL.Begin(PrimitiveType.Lines);
-            GL.Color4(1f,1f,0f,1f);
-            GL.Vertex2(-xb,-yb);
-            GL.Vertex2(xa,ya);
-            //Console.WriteLine(xa+" , "+ ya+" "+xb + " , " + yb);
+            GL.Color4(1f, 1f, 0f, 1f);
+            GL.Vertex2(xstart, ystart);
+            GL.Vertex2(xend, yend);
             GL.End();
-            GL.Disable(EnableCap.Blend);
+        }
 
-
+        int CreateColor(int red, int green, int blue)
+        {
+            return (red << 16) + (green << 8) + blue;
         }
     }
 }

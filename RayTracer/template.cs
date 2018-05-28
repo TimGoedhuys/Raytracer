@@ -47,7 +47,6 @@ namespace Template
 		protected override void OnRenderFrame( FrameEventArgs e )
 		{
             // called once per frame; render
-            game.Tick();
 			if (terminated) 
 			{
 				Exit();
@@ -81,6 +80,7 @@ namespace Template
             GL.End();
 
             game.Raytracing();
+            game.Tick();
             // tell OpenTK we're done rendering
             SwapBuffers();
 		}

@@ -12,18 +12,21 @@ namespace template.Elements
     class Camera
     {
         public Plane Screen;
-        public Vector3 Position, Direction ;
+        public Vector3 Position, Direction, ScreenCenter, Corner1, Corner2, Corner3 ;
         public float FOV;
         public Camera(Vector3 Pos, Vector3 Dir, float fov)
         {
             Position = Pos;
             Direction = Dir;
             FOV = fov;
-            Screen = new Plane(Dir, 1f, new Vector3(0, 0, 0));
+            ScreenCenter = Pos + Dir * FOV;
+            Corner1 = ScreenCenter + new Vector3(-256, 256, 0);
+            Corner2 = ScreenCenter + new Vector3(256, 256, 0);
+            Screen = new Plane(Dir, 1f, ScreenCenter);
             
 
             DrawCamPoint(Position);
-            DrawScreen(Position);
+            DrawScreen(ScreenCenter);
         }
 
         public static void DrawCamPoint(Vector3 Pos)
@@ -39,11 +42,20 @@ namespace template.Elements
             GL.Vertex3(x, y, 0);
             GL.End();
         }
-        public static void DrawScreen(Vector3 CamPos)
+        public static void DrawScreen(Vector3 ScreenCenter)
         {
-            float ScreenSize = 80;
-            float ycam = CamPos.Z;
-            float xcam = CamPos.X;
+            float ScreenWidth = 512;
+            float ScreenHeight = 512; 
+            float ycenter = ScreenCenter.Z;
+            float xcenter = ScreenCenter.X;
+            GL.Color4(1f, 1f, 1.0f, 1f);
+            GL.LineWidth(1f);
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex2((xcenter - ScreenWidth/2 + 256) / 512, ycenter/ (ScreenHeight/2));
+            GL.Vertex2((xcenter + ScreenWidth/2 + 256) / 512, ycenter / (ScreenHeight/2));
+            GL.End();
+
+            /*
             ycam *= 0.5f;
             xcam += 2;
             xcam *= 0.25f;
@@ -55,6 +67,7 @@ namespace template.Elements
             GL.Vertex2(xcam + (ScreenSize / 400), y);
             GL.Vertex2(xcam - (ScreenSize / 400), y);
             GL.End();
+            */
         }      
     }
 }

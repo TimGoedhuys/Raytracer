@@ -34,18 +34,19 @@ namespace template.Elements
 
         public void DrawCircle(Vector2 Position, Vector3 Color, float Radius, Surface Screen)
         {
-                float Ratio = Screen.width / Screen.height;
-                GL.Begin(PrimitiveType.TriangleFan);
-                GL.Color4(Color.X, Color.Y, Color.Z, 1.0f);
+            float Ratio = Screen.width / Screen.height;
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color4(Color.X, Color.Y, Color.Z, 1.0f);
 
-                GL.Vertex2(Position.X, Position.Y);
-                for (int i = 0; i < 360; i++)
-                {
-                    GL.Vertex2(Position.X + Math.Cos(i) * Radius, Position.Y + Math.Sin(i) * Radius * Ratio);
-                }
+            Radius /= 1024;
+            GL.Vertex2(Position.X, Position.Y);
+            for (int i = 0; i < 360; i++)
+            {
+                GL.Vertex2(Position.X + Math.Cos(i) * Radius, Position.Y + Math.Sin(i) * Radius * Ratio);
+            }
 
-                GL.End();
-                GL.Disable(EnableCap.Blend);
+            GL.End();
+            GL.Disable(EnableCap.Blend);
         }
     }
 }

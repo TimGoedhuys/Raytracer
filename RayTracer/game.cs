@@ -13,6 +13,7 @@ namespace Template {
 	    // member variables
 	    public Surface screen;
         float aspectratio;
+        Raytracer Raytr;
 
 	    // initialize
 	    public void Init()
@@ -26,6 +27,15 @@ namespace Template {
             screen.Line(screen.width / 2, 0, screen.width / 2, screen.height, 0xff0000);
             screen.Print("X", screen.width - 25, screen.height /2 + 10, 0xffffff);
             screen.Print("Z", screen.width / 4 * 3+ 5, screen.height - 20, 0xffffff);
+
+            for (int renderx = 0; renderx < 512; renderx++)
+            {
+                for (int rendery = 0; rendery < 512; rendery++)
+                {
+                    int pixel = renderx + rendery * 512;
+                    screen.Plot(renderx, rendery, (int)Raytr.Image[pixel]);
+                }
+            }
             // Drawing the Red Seperation line in the middle     
         }
 
@@ -35,8 +45,7 @@ namespace Template {
             GL.Enable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Texture2D);
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            float FOV =  1;
-
+            float FOV =  100;
             // creating a scene
             Scene Scene1 = new Scene();
 
@@ -51,9 +60,9 @@ namespace Template {
                 GL.End();
             }
             // Adding main objects to the scene
-            Sphere Sphere1 = new Sphere(new Vector3(-100, 0, 0), 0.07f, new Vector3(255,0,0), aspectratio);
-            Sphere Sphere2 = new Sphere(new Vector3(80, 0, 0), 0.07f, new Vector3(0, 0, 255), aspectratio);
-            Sphere Sphere3 = new Sphere(new Vector3(150, 0, 200), 0.07f, new Vector3(0, 255,0), aspectratio);
+            Sphere Sphere1 = new Sphere(new Vector3(-100, 0, 200), 100f, new Vector3(255,0,0), aspectratio);
+            Sphere Sphere2 = new Sphere(new Vector3(80, 0, 200), 100f, new Vector3(0, 0, 255), aspectratio);
+            Sphere Sphere3 = new Sphere(new Vector3(150, 0, 200), 100f, new Vector3(0, 255,0), aspectratio);
             Camera mainCamera = new Camera(new Vector3(0,0,0), new Vector3(0,0,1), FOV);
             Light LightSource1 = new Light(new Vector3(-1.5f, 0, 0.4f), 255, 255, 0);
 
@@ -71,6 +80,28 @@ namespace Template {
             // start raytracing
             Raytracer raytracer = new Raytracer();
             raytracer.Render(mainCamera, Scene1, screen);
+
+            for (int renderx = 0; renderx < 512; renderx++)
+            {
+                for (int rendery = 0; rendery < 512; rendery++)
+                {
+                    int pixel = renderx + rendery * 512;
+                    screen.Plot(renderx, rendery, (int)raytracer.Image[pixel]);
+                }
+            }
+            Raytr = raytracer;
+        }
+
+        void Render (Raytracer raytracer, Template.Surface screen)
+        {
+            for (int renderx = 0; renderx < 512; renderx++)
+            {
+                for (int rendery = 0; rendery < 512; rendery++)
+                {
+                    int pixel = renderx + rendery * 512;
+                    screen.pixels[pixel] = (int)raytracer.Image[pixel];     
+                }
+            }
         }
 
         public Vector2 DebugConverter(Vector3 pos)
