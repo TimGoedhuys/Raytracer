@@ -15,8 +15,8 @@ namespace Template {
         float aspectratio;
         Raytracer Raytr;
 
-	    // initialize
-	    public void Init()
+        // initialize
+        public void Init()
 	    {
             aspectratio = screen.width / screen.height;
         }
@@ -28,14 +28,16 @@ namespace Template {
             screen.Print("X", screen.width - 25, screen.height /2 + 10, 0xffffff);
             screen.Print("Z", screen.width / 4 * 3+ 5, screen.height - 20, 0xffffff);
 
+            Raytracing();
+            /*
             for (int renderx = 0; renderx < 512; renderx++)
             {
                 for (int rendery = 0; rendery < 512; rendery++)
                 {
                     int pixel = renderx + rendery * 512;
-                    screen.Plot(renderx, rendery, (int)Raytr.Image[pixel]);
+                    screen.Plot(renderx, rendery, (int)Raytr.Image[pixel);
                 }
-            }
+            }*/
             // Drawing the Red Seperation line in the middle     
         }
 
