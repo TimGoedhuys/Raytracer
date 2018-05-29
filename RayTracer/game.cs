@@ -38,7 +38,7 @@ namespace Template {
             GL.Enable(EnableCap.DepthTest);
             GL.Disable(EnableCap.Texture2D);
             GL.Clear(ClearBufferMask.DepthBufferBit);
-            float FOV =  100;
+            float FOV =  400;
             // creating a scene
             Scene Scene1 = new Scene();
 
@@ -56,8 +56,8 @@ namespace Template {
             Sphere Sphere1 = new Sphere(new Vector3(200, 0, 200), 100f, new Vector3(255,0,0), aspectratio);
             Sphere Sphere2 = new Sphere(new Vector3(-200, 0, 200), 100f, new Vector3(0, 0, 255), aspectratio);
             Sphere Sphere3 = new Sphere(new Vector3(-100, 0, 200), 100f, new Vector3(0, 255,0), aspectratio);
-            Camera mainCamera = new Camera(new Vector3(0,0,0), new Vector3(0,0,1), FOV);
-            Light LightSource1 = new Light(new Vector3(0, 400, 50), 255, 255, 0);
+            Camera mainCamera = new Camera(new Vector3(0,0,-400), new Vector3(0,0,1), FOV);
+            Light LightSource1 = new Light(new Vector3(0, 200, 200), 255, 255, 0);
 
             // adding light source(s) to the list
             Scene1.LightList.Add(LightSource1);
