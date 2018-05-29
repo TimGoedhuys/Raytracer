@@ -24,110 +24,80 @@ namespace template.Elements
             Length = 1000;
 
             //standard color is bkack
-            Color = new Vector3(0, 0, 0);  
-            
-            // check every primitive on collision with primary ray           
-            while (Intersect == false && i < objects.Count)
+            Color = new Vector3(0, 0, 0);    
+        }
+
+        public Vector3 Primarycolor(List<Primitives.Sphere> objects, Vector3 start, Vector3 vec)
+        {
+            int i = 0;
+            Vector3 Color = new Vector3(0,0,0);
+            while (i < objects.Count)
             {
-                CheckCollision(objects, i, start, vec);
-                if (Intersect == false)
+
+                Vector3 c = objects[i].Position - start;
+                float t = Vector3.Dot(c, vec);
+                if (t < 0)
+                {
+                    i++;
+                }
+
+                Vector3 q = c - t * vec;
+                float p = Vector3.Dot(q, q);
+
+                if ((t < this.Length && t > 0)  && p < objects[i].Radius2)
+                {
+                    this.Length = t;
+                    Intersect = true;
+                    Color = objects[i].Color;
+                    i++;
+                }
+                else
                 {
                     i++;
                 }
             }
+            return Color;
+        }
 
-            //Only cast shadow ray if there is an intersection
-            if (Intersect == true)
+        public float CheckCollisionShadowRay(List<Primitives.Sphere> objects, Vector3 start, Vector3 vec, Light Light)
+        {
+            float shadow = 1;
+            Lengthshadow = 1000;
+            j = 0;
+            while (Shadow == false && j < objects.Count)
             {
-                Color = objects[i].Color;
+                // start shadow ray just outside of the sphere
+                Vector3 c = (objects[j].Position - vec * 0.001f) - (start + vec * 0.001f);
+                float t = Vector3.Dot(c, vec);
 
-                j = 0;
-                Vector3 ShadowRay = Light.Position - vec * Length;
+                Vector3 ray = Light.Position - start;
+                Lengthshadow = ray.Length;
 
-                // check every primitive on collision with Shadows ray
-                while (Shadow == false && j < objects.Count)
+                Vector3 q = c - t * vec;
+                float p = Vector3.Dot(q, q);
+
+                if ((t < Lengthshadow && t > 0) && p < objects[j].Radius2)
                 {
-                    CheckCollisionShadowRay(objects, j, vec * Length, ShadowRay.Normalized(), i, Light);
-                    if (Shadow == false)
-                    {
-                        j++;
-                    }
+                    Shadow = true;
+                    Lengthshadow = t;
+                    shadow = 0;
                 }
 
-                //If there is a shadow the pixel should be black
-                if (Shadow == true)
-                {
-                    Color = new Vector3(0, 0, 0);
-                }
                 if (Shadow == false)
                 {
-                    // calculate the color knowing the angle to the sphere and the distance to the lightsource
-                    float intensity = Lengthshadow / 1000;
-                    Vector3 normal = (vec * Length) - objects[i].Position;
-                    angle = Math.Abs(Vector3.Dot(normal.Normalized(), ShadowRay.Normalized()));
-                    if (angle > 1)
-                        angle = 1;
-                    Color *= angle/* *intensity*/;
+                    j++;
                 }
-            }                       
+            }
+            return shadow;
         }
 
-        public void CheckCollision(List<Primitives.Sphere> objects, int i ,Vector3 start, Vector3 vec)
+        public float CalcAngle()
         {
-            Vector3 c = objects[i].Position - start;
-            float t = Vector3.Dot(c, vec);
-            if (t < 0)
-            {
-                return;
-            }
-            Vector3 q = c - t * vec;
-            float p = Vector3.Dot(q, q);
-            if (p > objects[i].Radius2)
-            {
-                return;
-            }
-            //float diff = (objects[i].Radius2 - p) * (objects[i].Radius2 - p);
-            //t -= diff;
-            if ((t < Length && t > 0))
-            {
-                Length = t;
-                Color = objects[i].Color;
-                Intersect = true;
-            }
+            return 1;
         }
-        public void CheckCollisionShadowRay(List<Primitives.Sphere> objects, int j, Vector3 start, Vector3 vec, int i, Light Light)
+        public float CalcIntensity()
         {
-            Lengthshadow = 1000;
-
-            // start shadow ray just outside of the sphere
-            Vector3 c = (objects[j].Position - vec * 10) - (start + vec * 0.01f);
-            float t = Vector3.Dot(c, vec);
-
-            if (t < 0)
-            {
-                Vector3 ray = Light.Position - start;
-                Lengthshadow = ray.Length;
-                return;
-            }
-
-            Vector3 q = c - t * vec;
-            float p = Vector3.Dot(q, q);
-
-            if (p > objects[j].Radius2)
-            {
-                Vector3 ray = Light.Position - start;
-                Lengthshadow = ray.Length;
-                return;
-            }
-
-            //float diff = (objects[i].Radius2 - p) * (objects[i].Radius2 - p);
-            //t -= diff;
-
-            if ((t < Lengthshadow && t > 0))
-            {
-                Shadow = true;
-            }
-            Lengthshadow = t;
+            return 1;
         }
     }
 }

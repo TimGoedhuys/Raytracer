@@ -29,6 +29,7 @@ namespace template.Elements
             DrawScreen(ScreenCenter);
         }
 
+        // Draws the camara in the Debug window (if the camara fits in it)
         public static void DrawCamPoint(Vector3 Pos)
         {
             float x = Pos.X;
@@ -42,6 +43,8 @@ namespace template.Elements
             GL.Vertex3(x, y, 0);
             GL.End();
         }
+
+        // draws a line where the screen is in the debug window
         public static void DrawScreen(Vector3 ScreenCenter)
         {
             float ScreenWidth = 512;

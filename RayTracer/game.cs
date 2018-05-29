@@ -57,15 +57,15 @@ namespace Template {
             Sphere Sphere2 = new Sphere(new Vector3(-200, 0, 200), 100f, new Vector3(0, 0, 255), aspectratio);
             Sphere Sphere3 = new Sphere(new Vector3(-100, 0, 200), 100f, new Vector3(0, 255,0), aspectratio);
             Camera mainCamera = new Camera(new Vector3(0,0,-400), new Vector3(0,0,1), FOV);
-            Light LightSource1 = new Light(new Vector3(0, 200, 200), 255, 255, 0);
+            Light LightSource1 = new Light(new Vector3(0, 300, 200), 255, 255, 0);
 
             // adding light source(s) to the list
             Scene1.LightList.Add(LightSource1);
 
             //adding primitives to te primitive list 
             Scene1.PrimitivesList.Add(Sphere1);
-            Scene1.PrimitivesList.Add(Sphere3);
             Scene1.PrimitivesList.Add(Sphere2);
+            Scene1.PrimitivesList.Add(Sphere3);
 
             // draw every primitive in the list
             foreach (Sphere item in Scene1.PrimitivesList)
@@ -86,18 +86,6 @@ namespace Template {
                 }
             }
             Raytr = raytracer;
-        }
-
-        void Render (Raytracer raytracer, Template.Surface screen)
-        {
-            for (int renderx = 0; renderx < 512; renderx++)
-            {
-                for (int rendery = 0; rendery < 512; rendery++)
-                {
-                    int pixel = renderx + rendery * 512;
-                    screen.pixels[pixel] = (int)raytracer.Image[pixel];     
-                }
-            }
         }
 
         public Vector2 DebugConverter(Vector3 pos)

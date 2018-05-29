@@ -20,6 +20,8 @@ namespace template.Elements
             return new Vector3(0,0,0);
         }
 
+
+        // ablility to turn the axis lines off in the debug view (done in game.cs)
         public void toggleaxis(bool TF)
         {
             if (TF == true)
@@ -32,6 +34,7 @@ namespace template.Elements
             }
         }
 
+        // draws a sphere in the debug window
         public void DrawCircle(Vector2 Position, Vector3 Color, float Radius, Surface Screen)
         {
             float Ratio = Screen.width / Screen.height;
