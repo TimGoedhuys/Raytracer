@@ -39,13 +39,15 @@ namespace template.Elements
             //Only cast shadow ray if there is an intersection
             if (Intersect == true)
             {
+                Color = objects[i].Color;
+
                 j = 0;
                 Vector3 ShadowRay = Light.Position - vec * Length;
 
                 // check every primitive on collision with Shadows ray
                 while (Shadow == false && j < objects.Count)
                 {
-                    CheckCollisionShadowRay(objects, j, vec * Length, ShadowRay.Normalized(), i);
+                    CheckCollisionShadowRay(objects, j, vec * Length, ShadowRay.Normalized(), i, Light);
                     if (Shadow == false)
                     {
                         j++;
@@ -57,13 +59,15 @@ namespace template.Elements
                 {
                     Color = new Vector3(0, 0, 0);
                 }
-                else
+                if (Shadow == false)
                 {
                     // calculate the color knowing the angle to the sphere and the distance to the lightsource
                     float intensity = Lengthshadow / 1000;
                     Vector3 normal = (vec * Length) - objects[i].Position;
-                    angle = Vector3.Dot(normal, vec) * -100;
-                    Color *= angle /* * intensity */;
+                    angle = Math.Abs(Vector3.Dot(normal.Normalized(), ShadowRay.Normalized()));
+                    if (angle > 1)
+                        angle = 1;
+                    Color *= angle/* *intensity*/;
                 }
             }                       
         }
@@ -91,24 +95,35 @@ namespace template.Elements
                 Intersect = true;
             }
         }
-        public void CheckCollisionShadowRay(List<Primitives.Sphere> objects, int j, Vector3 start, Vector3 vec, int i)
+        public void CheckCollisionShadowRay(List<Primitives.Sphere> objects, int j, Vector3 start, Vector3 vec, int i, Light Light)
         {
+            Lengthshadow = 1000;
+
             // start shadow ray just outside of the sphere
-            Vector3 c = (objects[j].Position - vec * 10) - (start + vec * 0.0001f);
+            Vector3 c = (objects[j].Position - vec * 10) - (start + vec * 0.01f);
             float t = Vector3.Dot(c, vec);
+
             if (t < 0)
             {
+                Vector3 ray = Light.Position - start;
+                Lengthshadow = ray.Length;
                 return;
             }
+
             Vector3 q = c - t * vec;
-            float p = q.Length * q.Length;
+            float p = Vector3.Dot(q, q);
+
             if (p > objects[j].Radius2)
             {
+                Vector3 ray = Light.Position - start;
+                Lengthshadow = ray.Length;
                 return;
             }
+
             //float diff = (objects[i].Radius2 - p) * (objects[i].Radius2 - p);
             //t -= diff;
-            if ((t < Length && t > 0))
+
+            if ((t < Lengthshadow && t > 0))
             {
                 Shadow = true;
             }

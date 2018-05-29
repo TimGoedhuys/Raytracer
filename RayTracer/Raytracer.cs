@@ -29,7 +29,7 @@ namespace template.Elements
                     raydir = ScreenPixel - startpoint;
                     raydir.Normalize();
                     Ray ray1 = new Ray(startpoint, raydir, Scene.PrimitivesList, 10f,Intersections, Scene.LightList[0]);
-                    if (x % 32 == 0 && y  == 256)
+                    if (x % 5 == 0 && y  == 256)
                     {
                         DrawRay(startpoint, raydir, ray1.Length);
                     }
@@ -37,7 +37,7 @@ namespace template.Elements
                     Image[x + y * 512] = Color;
                 }
             }
-
+            
         }
 
         public int Hex(Vector3 vecColor)
@@ -62,7 +62,7 @@ namespace template.Elements
 
         int CreateColor(int red, int green, int blue)
         {
-            return (red << 16) + (green << 8) + blue;
+            return ((red) << 16) + ((green) << 8) + (blue);
         }
     }
 }

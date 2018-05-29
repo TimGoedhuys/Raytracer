@@ -38,7 +38,7 @@ namespace template.Elements
             GL.Begin(PrimitiveType.TriangleFan);
             GL.Color4(Color.X, Color.Y, Color.Z, 1.0f);
 
-            Radius /= 1024;
+            Radius /= 512;
             GL.Vertex2(Position.X, Position.Y);
             for (int i = 0; i < 360; i++)
             {
